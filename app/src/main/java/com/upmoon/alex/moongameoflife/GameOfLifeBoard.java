@@ -10,6 +10,18 @@ public class GameOfLifeBoard {
         return ourInstance;
     }
 
+    /* Hold the variable dimensions of the board. */
+    private int rows, columns;
+    private int generations; // Current generation of this game
+
+    /* Create 2D array to hold the cells */
+    private GameOfLifeCell [][] cells;
+
     private GameOfLifeBoard() {
+    }
+
+    /* Save game state */
+    public void saveState() {
+        return;
     }
 }
