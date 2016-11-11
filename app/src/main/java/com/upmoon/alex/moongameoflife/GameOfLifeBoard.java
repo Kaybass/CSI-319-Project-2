@@ -8,12 +8,8 @@ package com.upmoon.alex.moongameoflife;
     - saveState()
     - openState()
  */
-public class GameOfLifeBoard {
+public class GameOfLifeBoard extends  {
     private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
-
-    public static GameOfLifeBoard getInstance() {
-        return ourInstance;
-    }
 
     /* Hold the variable dimensions of the board. */
     private int rows, columns;
@@ -22,7 +18,7 @@ public class GameOfLifeBoard {
     /* Create 2D array to hold the cells */
     private GameOfLifeCell[][] cells;
 
-    private GameOfLifeBoard() {
+    public GameOfLifeBoard() {
 
     }
 
@@ -50,8 +46,8 @@ public class GameOfLifeBoard {
         return cells;
     }
 
-    /* Method to update the entire board to the next gen */
-    private void updateBoard() {
+    /* Method tpo update the entire board to the next gen */
+    public void updateBoard() {
         /* Create a 2D byte array to keep track of the number of cells living */
         byte[][] livingNeighborsCount = new byte[rows][columns];
 
