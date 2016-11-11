@@ -3,4 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_text">Welcome to the *MOON* Game of Life!</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="load_local">Load Local Game</string>
+    <string name="load_online">Load Online Game</string>
+    <string name="reset_local">Clear Locally Stored Games</string>
 </resources>

@@ -11,7 +11,48 @@
     tools:context="com.upmoon.alex.moongameoflife.MenuActivity">
 
     <TextView
+        android:id="@+id/menu_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerHorizontal="true"
+        android:textSize="48dp"
+        android:textAlignment="center"
+        android:text="@string/menu_text" />
+
+    <Button
+        android:id="@+id/new_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/menu_text"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/start_new_game" />
+
+    <Button
+        android:id="@+id/load_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_game"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/load_local" />
+
+    <Button
+        android:id="@+id/load_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/load_local"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/load_online" />
+
+    <Button
+        android:id="@+id/reset_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/load_online"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/reset_local" />
+
 </RelativeLayout>
