@@ -17,7 +17,7 @@ public class GameOfLifeCell {
     private boolean status; // (TRUE: Alive) OR (FALSE: Dead)
 
     private int sideLength;						// The length of a cell
-    private Color alive, dead;				// The clor of living and dead cells
+    private Color alive, dead;				// The color of living and dead cells
 
     /* Cell Constructor */
     public GameOfLifeCell (int row, int column, int sideLength, Color alive, Color dead) {
