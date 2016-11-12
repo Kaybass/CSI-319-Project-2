@@ -16,7 +16,7 @@ import android.widget.ListView;
  */
 
 public class loadFragment extends DialogFragment {
-
+/*
     public static final String EXTRA_GAME =
             "com.upmoon.alex.moongameoflife.game";
 
@@ -45,7 +45,7 @@ public class loadFragment extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int gameID = -1;
-                                /* TODO: ListView sets game value */
+                                 TODO: ListView sets game value
                                 sendResult(Activity.RESULT_OK, gameID);
                             }
                         })
@@ -57,7 +57,7 @@ public class loadFragment extends DialogFragment {
             return;
         }
 
-        if(savedGameID == -1) /* No game was selected */
+        if(savedGameID == -1)  No game was selected
             return;
 
         Intent intent = new Intent();
@@ -65,5 +65,5 @@ public class loadFragment extends DialogFragment {
 
         getTargetFragment()
                 .onActivityResult(getTargetRequestCode(), resultCode, intent);
-    }
+    }*/
 }

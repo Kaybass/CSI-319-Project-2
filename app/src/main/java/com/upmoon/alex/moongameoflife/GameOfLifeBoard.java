@@ -14,7 +14,7 @@ import java.io.Serializable;
     - saveState()
     - openState()
  */
-public class GameOfLifeBoard implements Serializable {
+
 public class GameOfLifeBoard implements Serializable {
     private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
 
