@@ -1,9 +1,8 @@
 package com.upmoon.alex.moongameoflife;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 
 
 public class MenuFragment extends Fragment {
+
+    private static final int REQUEST_GAME = 0;
 
     private TextView menuText;
 
@@ -40,13 +41,17 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                return;
             }
         });
 
         loadLocalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentManager manager = getFragmentManager();
+                loadFragment dialog = loadFragment.newInstance();
+                dialog.setTargetFragment(MenuFragment.this, REQUEST_GAME);
+                dialog.show(manager);
             }
         });
 
@@ -54,6 +59,15 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                return;
+            }
+        });
+
+        resetLocalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* TODO: Reset locally saved games */
+                return;
             }
         });
 
