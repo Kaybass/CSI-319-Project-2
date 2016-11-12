@@ -5,4 +5,8 @@ package com.upmoon.alex.moongameoflife;
  */
 
 public interface LoadGOL {
+
+    String[] loadBoardNames();
+
+    GameOfLifeBoard loadBoard(String id);
 }

@@ -5,4 +5,12 @@ package com.upmoon.alex.moongameoflife;
  */
 
 public class SaveGOLonline implements SaveGOL {
+
+    public SaveGOLonline(String ip){
+
+    }
+
+    public int saveBoard(GameOfLifeBoard board){
+        return 0;
+    }
 }

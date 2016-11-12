@@ -5,4 +5,6 @@ package com.upmoon.alex.moongameoflife;
  */
 
 public interface SaveGOL {
+
+    int saveBoard(GameOfLifeBoard board);
 }

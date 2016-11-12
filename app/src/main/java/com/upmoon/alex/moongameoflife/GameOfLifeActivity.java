@@ -1,13 +1,12 @@
 package com.upmoon.alex.moongameoflife;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-public class GameOfLifeActivity extends AppCompatActivity {
+import android.support.v4.app.Fragment;
+
+public class GameOfLifeActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_of_life);
+    protected Fragment createFragment() {
+        return new GameOfLifeFragment();
     }
 }

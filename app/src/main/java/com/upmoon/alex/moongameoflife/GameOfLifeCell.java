@@ -1,5 +1,7 @@
 package com.upmoon.alex.moongameoflife;
 
+import java.io.Serializable;
+
 /**
  * Created by Alex on 10/29/2016.
  */

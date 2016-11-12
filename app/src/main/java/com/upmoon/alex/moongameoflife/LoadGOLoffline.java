@@ -5,4 +5,19 @@ package com.upmoon.alex.moongameoflife;
  */
 
 public class LoadGOLoffline implements LoadGOL {
+
+    public LoadGOLoffline(){
+
+    }
+
+    public String[] loadBoardNames(){
+
+        //Not implemented
+        return new String[] {};
+    }
+
+    public GameOfLifeBoard loadBoard(String id){
+
+        return GameOfLifeBoard.getInstance();
+    }
 }
