@@ -1,5 +1,7 @@
 package com.upmoon.alex.moongameoflife;
 
+import android.graphics.Color;
+
 /**
  * Created by Alex on 10/29/2016.
  */
@@ -8,25 +10,26 @@ package com.upmoon.alex.moongameoflife;
     - saveState()
     - openState()
  */
-public class GameOfLifeBoard {
+public class GameOfLifeBoard extends  {
     private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
-
-    public static GameOfLifeBoard getInstance() {
-        return ourInstance;
-    }
 
     /* Hold the variable dimensions of the board. */
     private int rows, columns;
     private int generations; // Current generation of this game
 
+    private int pulseDiameter;				//Diameter of Pulsating cells
+    private boolean pulseIncreasing;	//Are the circles getting bigger or smaller
+    private int sideLength;						// The length of a cell
+    private Color alive, dead;				// The color of living and dead cells
+
     /* Create 2D array to hold the cells */
     private GameOfLifeCell[][] cells;
 
-    private GameOfLifeBoard() {
+    public GameOfLifeBoard() {
 
     }
 
-    public GameOfLifeBoard(int rows, int columns) {
+    public GameOfLifeBoard(int rows, int columns, int sideLength, Color alive, Color dead) {
         /* Initialize the array of cells */
         cells = new GameOfLifeCell[rows][columns];
 
@@ -40,18 +43,49 @@ public class GameOfLifeBoard {
         /* Set the instance variables */
         this.rows = rows;
         this.columns = columns;
+        this.sideLength = sideLength;
 
         /* We start at the 0 gen */
         this.generations = 0;
     }
 
+    /* Creates an array of cells given an old array of cells. */
+    public GameOfLifeBoard(int rows, int columns, GameOfLifeCell[][] oldArray, int g, int sideLength, Color alive, Color dead) {
+        /* Set the instance variables */
+        this.rows = rows;
+        this.columns = columns;
+        this.sideLength = sideLength;
+
+        cells = new GameOfLifeCell[rows][columns];
+
+        /* Copy each cell from the oldArray. */
+        for(int i = 0; i < Math.min(rows, oldArray.length); i++){
+            for(int j = 0; j < Math.min(columns, oldArray[0].length); j++){
+                cells[i][j] = oldArray[i][j];
+            }
+        }
+
+        /* Make sure all the null new Cells are
+         *  They would not be yet if the new number of rows
+         *  or columns exceeds the old */
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if(cells[i][j] == null)
+                    cells[i][j] = new GameOfLifeCell(i, j, sideLength, alive, dead);
+            }
+        }
+        
+        /* Set generation to the same */
+        this.generations = g;
+    }
+
     /* Returns the 2D GameOfLifeCell array */
-    private GameOfLifeCell[][] extract(){
+    public GameOfLifeCell[][] extract(){
         return cells;
     }
 
-    /* Method to update the entire board to the next gen */
-    private void updateBoard() {
+    /* Method tpo update the entire board to the next gen */
+    public void updateBoard() {
         /* Create a 2D byte array to keep track of the number of cells living */
         byte[][] livingNeighborsCount = new byte[rows][columns];
 
