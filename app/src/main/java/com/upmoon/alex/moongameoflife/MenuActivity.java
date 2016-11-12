@@ -1,13 +1,11 @@
 package com.upmoon.alex.moongameoflife;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends SingleFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+    protected Fragment createFragment(){
+        return new MenuFragment();
     }
 }

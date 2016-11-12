@@ -36,6 +36,37 @@ public class MenuFragment extends Fragment {
         loadLocalButton = (Button) view.findViewById(R.id.load_local);
         loadOnlineButton = (Button) view.findViewById(R.id.load_online);
 
+
+        /*
+        * This is me playing around with changing the ui
+        *
+        * */
+        final int length = 10;
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                for( int i=0 ; i<length; i++) {
+                    getActivity().runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            menuText.setText(Integer(i).toString());
+                        }
+                    }) ;
+                    i++;
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+        t.start();
+
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

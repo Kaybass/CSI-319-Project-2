@@ -1,6 +1,5 @@
 package com.upmoon.alex.moongameoflife;
 
-import android.graphics.Color;
 import java.io.Serializable;
 
 
@@ -18,29 +17,11 @@ public class GameOfLifeCell {
     private int row, column; // The location of the cell in the grid
     private boolean status; // (TRUE: Alive) OR (FALSE: Dead)
 
-    private int sideLength;						// The length of a cell
-    private Color alive, dead;				// The color of living and dead cells
-
     /* Cell Constructor */
-    public GameOfLifeCell (int row, int column, int sideLength, Color alive, Color dead) {
+    public GameOfLifeCell (int row, int column) {
         status = false;
         this.row = row;
         this.column = column;
-        this.sideLength = sideLength;
-        this.alive = alive;
-        this.dead = dead;
-    }
-
-    public void setAlive(Color aliveColor){
-        this.alive = aliveColor;
-    }
-
-    public void setDead(Color deadColor){
-        this.dead = deadColor;
-    }
-
-    public void setSideLength(int sideLength){
-        this.sideLength = sideLength;
     }
 
     /* Change the status of a cell */

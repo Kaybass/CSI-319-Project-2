@@ -1,6 +1,8 @@
 package com.upmoon.alex.moongameoflife;
 
 import android.graphics.Color;
+import java.io.Serializable;
+
 
 /**
  * Created by Alex on 10/29/2016.
@@ -10,8 +12,7 @@ import android.graphics.Color;
     - saveState()
     - openState()
  */
-public class GameOfLifeBoard extends  {
-    private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
+public class GameOfLifeBoard implements Serializable {
 
     /* Hold the variable dimensions of the board. */
     private int rows, columns;
@@ -19,8 +20,6 @@ public class GameOfLifeBoard extends  {
 
     private int pulseDiameter;				//Diameter of Pulsating cells
     private boolean pulseIncreasing;	//Are the circles getting bigger or smaller
-    private int sideLength;						// The length of a cell
-    private Color alive, dead;				// The color of living and dead cells
 
     /* Create 2D array to hold the cells */
     private GameOfLifeCell[][] cells;
@@ -29,7 +28,7 @@ public class GameOfLifeBoard extends  {
 
     }
 
-    public GameOfLifeBoard(int rows, int columns, int sideLength, Color alive, Color dead) {
+    public GameOfLifeBoard(int rows, int columns) {
         /* Initialize the array of cells */
         cells = new GameOfLifeCell[rows][columns];
 
@@ -43,18 +42,16 @@ public class GameOfLifeBoard extends  {
         /* Set the instance variables */
         this.rows = rows;
         this.columns = columns;
-        this.sideLength = sideLength;
 
         /* We start at the 0 gen */
         this.generations = 0;
     }
 
     /* Creates an array of cells given an old array of cells. */
-    public GameOfLifeBoard(int rows, int columns, GameOfLifeCell[][] oldArray, int g, int sideLength, Color alive, Color dead) {
+    public GameOfLifeBoard(int rows, int columns, GameOfLifeCell[][] oldArray, int g) {
         /* Set the instance variables */
         this.rows = rows;
         this.columns = columns;
-        this.sideLength = sideLength;
 
         cells = new GameOfLifeCell[rows][columns];
 
@@ -71,7 +68,7 @@ public class GameOfLifeBoard extends  {
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
                 if(cells[i][j] == null)
-                    cells[i][j] = new GameOfLifeCell(i, j, sideLength, alive, dead);
+                    cells[i][j] = new GameOfLifeCell(i, j);
             }
         }
         
@@ -162,16 +159,6 @@ public class GameOfLifeBoard extends  {
             }
         }
         generations = 0;
-    }
-
-    /* Save game state */
-    private void saveState() {
-        return;
-    }
-
-    /* Load game state */
-    private void loadState() {
-        return;
     }
 
 }
