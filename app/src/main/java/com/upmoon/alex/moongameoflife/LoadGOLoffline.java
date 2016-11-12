@@ -18,6 +18,6 @@ public class LoadGOLoffline implements LoadGOL {
 
     public GameOfLifeBoard loadBoard(String id){
 
-        return GameOfLifeBoard.getInstance();
+        return new GameOfLifeBoard();
     }
 }
