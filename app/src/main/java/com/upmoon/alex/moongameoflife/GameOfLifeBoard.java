@@ -2,6 +2,8 @@ package com.upmoon.alex.moongameoflife;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
+
 /**
  * Created by Alex on 10/29/2016.
  */
@@ -10,7 +12,7 @@ import android.graphics.Color;
     - saveState()
     - openState()
  */
-public class GameOfLifeBoard extends  {
+public class GameOfLifeBoard implements Serializable {
     private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
 
     /* Hold the variable dimensions of the board. */
