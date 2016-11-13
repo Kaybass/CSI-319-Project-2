@@ -48,7 +48,7 @@ public class MenuFragment extends Fragment {
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(15,15));
+                CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(20,20));
                 startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 return;
             }

@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 
 public class GameOfLifeBoard implements Serializable {
-    private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
 
     /* Hold the variable dimensions of the board. */
     private int rows, columns;
@@ -136,6 +135,18 @@ public class GameOfLifeBoard implements Serializable {
 
     public void flipCellStatus(int row, int col){
         cells[row][col].changeStatus();
+    }
+
+    public int getColumns(){
+        return columns;
+    }
+
+    public int getRows(){
+        return rows;
+    }
+
+    public boolean cellStatus(int r, int c){
+        return cells[r][c].getStatus();
     }
 
     /* Set generations */

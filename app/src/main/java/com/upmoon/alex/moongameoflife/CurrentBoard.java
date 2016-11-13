@@ -39,4 +39,16 @@ public class CurrentBoard {
     public void flipCell(int v, int h){
         mBoard.flipCellStatus(v,h);
     }
+
+    public int getHorizontalLength(){
+        return mBoard.getColumns();
+    }
+
+    public int getVerticalLength(){
+        return mBoard.getRows();
+    }
+
+    public boolean getCellStatus(int r, int c){
+        return mBoard.cellStatus(r,c);
+    }
 }

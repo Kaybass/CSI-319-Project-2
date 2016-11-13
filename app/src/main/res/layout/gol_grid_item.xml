@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="20dp"
+    android:layout_height="20dp">
 
-    <Button
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button"
-        android:background="@android:color/darker_gray"
-        android:elevation="0dp" />
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gol_cell_item" />
 </LinearLayout>
