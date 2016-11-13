@@ -35,4 +35,8 @@ public class CurrentBoard {
     public void update(){
         mBoard.updateBoard();
     }
+
+    public void flipCell(int v, int h){
+        mBoard.flipCellStatus(v,h);
+    }
 }

@@ -1,5 +1,6 @@
 package com.upmoon.alex.moongameoflife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,14 +19,6 @@ public class MenuFragment extends Fragment {
     private TextView menuText;
 
     private Button newGameButton, loadLocalButton, loadOnlineButton, resetLocalButton;
-
-    private static final String[] things = new String[] {"kek","meme","wwwwwww"};
-
-    private int i = 0;
-
-    private static boolean paused = true;
-
-    private static int timer = 500;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -52,42 +45,11 @@ public class MenuFragment extends Fragment {
         *
         * */
 
-        if(newGameButton == null || loadLocalButton == null || loadOnlineButton == null)
-            Log.d("sda","asd");
-
-        Thread t = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                while(true) {
-                    getActivity().runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if(!isPaused())
-                                updateUI();
-                        }
-                    }) ;
-
-
-                    //game logic
-
-                    try {
-                        Thread.sleep(threadTime());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
-        t.start();
-
-
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flipPause();
+                CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(15,15));
+                startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 return;
             }
         });
@@ -95,7 +57,7 @@ public class MenuFragment extends Fragment {
         loadLocalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeTimer();
+
                 return;
             }
         });/*
@@ -117,31 +79,5 @@ public class MenuFragment extends Fragment {
         });*/
 
         return view;
-    }
-
-    public void updateUI(){
-        menuText.setText(things[i]);
-        if(i>=2)
-            i = 0;
-        else
-            i++;
-    }
-
-    public static boolean isPaused(){
-        return paused;
-    }
-    public static void flipPause(){
-        paused = !paused;
-    }
-
-    public static int threadTime(){
-        return timer;
-    }
-
-    public static void changeTimer(){
-        if(timer == 500)
-            timer = 1000;
-        else
-            timer = 500;
     }
 }

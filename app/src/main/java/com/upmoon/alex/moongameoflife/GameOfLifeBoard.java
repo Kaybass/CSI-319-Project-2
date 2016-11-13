@@ -1,19 +1,11 @@
 package com.upmoon.alex.moongameoflife;
 
-import android.graphics.Color;
-import java.io.Serializable;
-
-
 import java.io.Serializable;
 
 /**
  * Created by Alex on 10/29/2016.
  */
 
-/* TODO
-    - saveState()
-    - openState()
- */
 
 public class GameOfLifeBoard implements Serializable {
     private static GameOfLifeBoard ourInstance = new GameOfLifeBoard();
@@ -21,9 +13,6 @@ public class GameOfLifeBoard implements Serializable {
     /* Hold the variable dimensions of the board. */
     private int rows, columns;
     private int generations; // Current generation of this game
-
-    private int pulseDiameter;				//Diameter of Pulsating cells
-    private boolean pulseIncreasing;	//Are the circles getting bigger or smaller
 
     /* Create 2D array to hold the cells */
     private GameOfLifeCell[][] cells;
@@ -143,6 +132,10 @@ public class GameOfLifeBoard implements Serializable {
 
         /* Increment the generation */
         generations++;
+    }
+
+    public void flipCellStatus(int row, int col){
+        cells[row][col].changeStatus();
     }
 
     /* Set generations */
