@@ -31,4 +31,8 @@ public class CurrentBoard {
     public GameOfLifeBoard getBoard(){
         return mBoard;
     }
+
+    public void update(){
+        mBoard.updateBoard();
+    }
 }

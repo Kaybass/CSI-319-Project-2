@@ -69,6 +69,9 @@ public class MenuFragment extends Fragment {
                         }
                     }) ;
 
+
+                    //game logic
+
                     try {
                         Thread.sleep(threadTime());
                     } catch (InterruptedException e) {
