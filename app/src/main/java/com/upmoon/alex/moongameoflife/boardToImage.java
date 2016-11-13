@@ -1,8 +1,8 @@
 package com.upmoon.alex.moongameoflife;
 
 /**
- * Class used for porting GOLBoard object to png
+ * Created by Alex on 11/13/2016.
  */
 
-public class boardToImage {
+public class BoardToImage {
 }
