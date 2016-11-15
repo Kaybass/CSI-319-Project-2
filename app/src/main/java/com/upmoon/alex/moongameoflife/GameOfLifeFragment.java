@@ -15,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.Toast;
 
 
 /**
@@ -28,12 +26,18 @@ public class GameOfLifeFragment extends Fragment {
     private RecyclerView mGOLBoard;
     private CellAdapter mAdapter;
 
-    private static int mTimer = 1000;
-    private static boolean mPaused = true;
+    private Button mPauseButton, mResetButton, mCloneButton;
+
+    private static int mTimer = 800;
+    private static boolean mPaused = false;
 
     private Thread mThread;
 
     private volatile boolean mRunning = true;
+
+    private static boolean mPulse = true;//highkey things that I lack
+
+    private GameOfLifeBoard mResetCopy;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,22 +50,59 @@ public class GameOfLifeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_of_life, container, false);
 
+        mResetCopy = new GameOfLifeBoard(CurrentBoard.getInstance().getVerticalLength(),
+                CurrentBoard.getInstance().getHorizontalLength());
+
+        for(int i = 0; i < mResetCopy.getRows(); i++){
+            for(int j = 0; j < mResetCopy.getColumns(); j++){
+                if(CurrentBoard.getInstance().getCellStatus(i,j))
+                    mResetCopy.flipCellStatus(i,j);
+            }
+        }
+
         mGOLBoard = (RecyclerView) view.findViewById(R.id.gol_recycler_view);
         mGOLBoard.setLayoutManager(new GridLayoutManager(getActivity(),
                 CurrentBoard.getInstance().getHorizontalLength()));
 
-        boolean[][] cellStatuses = new boolean[CurrentBoard.getInstance().getVerticalLength()]
-                                            [CurrentBoard.getInstance().getHorizontalLength()];
-        for (int i = 0; i < CurrentBoard.getInstance().getVerticalLength(); i++){
-            for(int j = 0; j < CurrentBoard.getInstance().getHorizontalLength(); j++){
-                cellStatuses[i][j] = CurrentBoard.getInstance().getCellStatus(i,j);
-            }
-        }
-
-
-
-        mAdapter = new CellAdapter(cellStatuses);
+        mAdapter = new CellAdapter(CurrentBoard.getInstance().getVerticalLength(),
+                CurrentBoard.getInstance().getHorizontalLength());
         mGOLBoard.setAdapter(mAdapter);
+
+        mPauseButton = (Button) view.findViewById(R.id.gol_pause_);
+        mPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipPaused();
+                mResetCopy = CurrentBoard.getInstance().getBoard();
+            }
+        });
+
+        mResetButton = (Button) view.findViewById(R.id.gol_clone_);
+        mResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mCloneButton = (Button) view.findViewById(R.id.gol_reset_);
+        mCloneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPaused()){
+                    CurrentBoard.getInstance().setBoard(null);
+                    CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(22,22));
+                    for(int i = 0; i < mResetCopy.getRows(); i++){
+                        for(int j = 0; j < mResetCopy.getColumns(); j++){
+                            CurrentBoard.getInstance().setCell(i,j,mResetCopy.cellStatus(i,j));
+                        }
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "Pause first", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         mThread = new Thread(new Runnable() {
 
@@ -69,18 +110,27 @@ public class GameOfLifeFragment extends Fragment {
             public void run() {
                 while(mRunning) {
                     if(!isPaused()){
-                        CurrentBoard.getInstance().update();
+
+                        //Draw board
                         getActivity().runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
+
+                                /*
+                                * Redraws the entire layout, really slow
+                                * */
                                 mAdapter.notifyDataSetChanged();
                             }
-                        }) ;
+                        });
+
+                        //update game
+                        CurrentBoard.getInstance().update();
+                        flipPulse();
+                        Log.d("Worker Thread", "Successful run");
                     }
 
-                    Log.d("Worker Thread", "Successful run");
-
+                    //Sleep
                     try {
                         Thread.sleep(threadTime());
                     } catch (InterruptedException e) {
@@ -125,7 +175,7 @@ public class GameOfLifeFragment extends Fragment {
 
     /*
      *
-     *
+     *  static thread functions
      */
 
     public static boolean isPaused(){
@@ -144,7 +194,18 @@ public class GameOfLifeFragment extends Fragment {
         mTimer = mili;
     }
 
-    //
+    public static boolean getPulse(){
+        return mPulse;
+    }
+
+    public static void flipPulse(){
+        mPulse = !mPulse;
+    }
+
+    /*
+    *
+    * Recycler classes
+    * */
     private class CellHolder extends RecyclerView.ViewHolder
                 implements View.OnClickListener {
 
@@ -155,16 +216,20 @@ public class GameOfLifeFragment extends Fragment {
 
         public CellHolder(View itemView){
             super(itemView);
+            itemView.setOnClickListener(this);
 
             mCell = (TextView) itemView.findViewById(R.id.gol_cell_item);
         }
 
-        public void bindCell(boolean alive, int v, int h){
-            mAlive = alive;
+        public void bindCell(int v, int h){
+            mAlive = CurrentBoard.getInstance().getCellStatus(v,h);
             mHorPos = h;
             mVerPos = v;
             if(mAlive) {
-                mCell.setText("*");
+                if(getPulse())
+                    mCell.setText("8");
+                else
+                    mCell.setText("*");
                 mCell.setTextColor(Color.parseColor("#5ff442"));
             }
             else {
@@ -181,7 +246,10 @@ public class GameOfLifeFragment extends Fragment {
                 CurrentBoard.getInstance().flipCell(mVerPos,mHorPos);
                 mAlive = !mAlive;
                 if(mAlive) {
-                    mCell.setText("*");
+                    if(getPulse())
+                        mCell.setText("8");
+                    else
+                        mCell.setText("*");
                     mCell.setTextColor(Color.parseColor("#5ff442"));
                 }
                 else {
@@ -194,10 +262,12 @@ public class GameOfLifeFragment extends Fragment {
 
     private class CellAdapter extends RecyclerView.Adapter<CellHolder>{
 
-        private boolean[][] mCells;
+        private int rows, columns;
 
-        public CellAdapter(boolean[][] cells){
-            mCells = cells;
+        public CellAdapter(int r, int c){
+
+            rows = r;
+            columns = c;
         }
 
         @Override
@@ -210,21 +280,20 @@ public class GameOfLifeFragment extends Fragment {
         @Override
         public void onBindViewHolder(CellHolder holder, int position){
 
+            //this math is not wrong
+            int vPosition = position / columns;
 
-            //this math is maybe wrong
-            int vPosition = (position / mCells[0].length);
+            int hPosition = position % columns;
 
-            int hPosition = (position % mCells[0].length);
+            //Log.d("BIND VIEW HOLDER", Integer.toString(vPosition) + " " + Integer.toString(hPosition) );
 
-            Log.d("BIND VIEW HOLDER", Integer.toString(vPosition) + " " + Integer.toString(hPosition) );
-
-            holder.bindCell(mCells[vPosition][hPosition],vPosition,hPosition);
+            holder.bindCell(vPosition,hPosition);
         }
 
         @Override
         public int getItemCount(){
             //this math is right
-            return mCells.length * mCells[0].length;
+            return rows * columns;
         }
     }
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Alex on 10/29/2016.
+ *
  */
 
 
@@ -17,6 +18,24 @@ public class GameOfLifeBoard implements Serializable {
     private GameOfLifeCell[][] cells;
 
     public GameOfLifeBoard() {
+
+    }
+
+    public GameOfLifeBoard(GameOfLifeBoard board){
+        this.rows = board.rows;
+        this.columns = board.columns;
+        this.generations = board.generations;
+        this.cells = new GameOfLifeCell[this.rows][this.columns];
+
+        /* Create a cell for each element in the 2D array */
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                this.cells[i][j] = new GameOfLifeCell(i,j);
+                if(board.cells[i][j].getStatus()){
+                    this.cells[i][j].changeStatus();
+                }
+            }
+        }
 
     }
 
@@ -147,6 +166,10 @@ public class GameOfLifeBoard implements Serializable {
 
     public boolean cellStatus(int r, int c){
         return cells[r][c].getStatus();
+    }
+
+    public void setCell(int r, int c, boolean b){
+        cells[r][c].setStatus(b);
     }
 
     /* Set generations */

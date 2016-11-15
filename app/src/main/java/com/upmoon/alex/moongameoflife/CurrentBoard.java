@@ -40,6 +40,10 @@ public class CurrentBoard {
         mBoard.flipCellStatus(v,h);
     }
 
+    public void setCell(int r, int c, boolean b){
+        mBoard.setCell(r,c,b);
+    }
+
     public int getHorizontalLength(){
         return mBoard.getColumns();
     }
