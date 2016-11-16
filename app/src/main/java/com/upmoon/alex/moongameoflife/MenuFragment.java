@@ -1,14 +1,19 @@
 package com.upmoon.alex.moongameoflife;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -70,6 +75,18 @@ public class MenuFragment extends Fragment {
         loadLocalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Load Locally Saved Grid");
+
+                ListView localSavedGrids = new ListView(getActivity());
+                String[] stringArray = new String[] { "Example Grid 1", "Golden Goat", "Lavender Diesel" };
+                ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+                localSavedGrids.setAdapter(gridAdapter);
+
+                builder.setView(localSavedGrids);
+                final Dialog dialog = builder.create();
+
+                dialog.show();
 
                 return;
             }
