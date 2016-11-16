@@ -29,7 +29,7 @@ public class GameOfLifeFragment extends Fragment {
     private Button mPauseButton, mResetButton, mCloneButton;
 
     private static int mTimer = 800;
-    private static boolean mPaused = false;
+    private static boolean mPaused = true;
 
     private Thread mThread;
 
@@ -37,7 +37,7 @@ public class GameOfLifeFragment extends Fragment {
 
     private static boolean mPulse = true;//highkey things that I lack
 
-    private GameOfLifeBoard mResetCopy;
+    private Boolean[][] mResetCopy;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,15 +50,12 @@ public class GameOfLifeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_of_life, container, false);
 
-        mResetCopy = new GameOfLifeBoard(CurrentBoard.getInstance().getVerticalLength(),
-                CurrentBoard.getInstance().getHorizontalLength());
+        mResetCopy = new Boolean[CurrentBoard.getInstance().getVerticalLength()]
+                [CurrentBoard.getInstance().getHorizontalLength()];
 
-        for(int i = 0; i < mResetCopy.getRows(); i++){
-            for(int j = 0; j < mResetCopy.getColumns(); j++){
-                if(CurrentBoard.getInstance().getCellStatus(i,j))
-                    mResetCopy.flipCellStatus(i,j);
-            }
-        }
+        saveCopy();
+
+        mPaused = true;
 
         mGOLBoard = (RecyclerView) view.findViewById(R.id.gol_recycler_view);
         mGOLBoard.setLayoutManager(new GridLayoutManager(getActivity(),
@@ -72,8 +69,10 @@ public class GameOfLifeFragment extends Fragment {
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isPaused()){
+                    saveCopy();
+                }
                 flipPaused();
-                mResetCopy = CurrentBoard.getInstance().getBoard();
             }
         });
 
@@ -90,13 +89,8 @@ public class GameOfLifeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isPaused()){
-                    CurrentBoard.getInstance().setBoard(null);
-                    CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(22,22));
-                    for(int i = 0; i < mResetCopy.getRows(); i++){
-                        for(int j = 0; j < mResetCopy.getColumns(); j++){
-                            CurrentBoard.getInstance().setCell(i,j,mResetCopy.cellStatus(i,j));
-                        }
-                    }
+                    pushCopy();
+                    mAdapter.notifyDataSetChanged();
                 }
                 else{
                     Toast.makeText(getActivity(), "Pause first", Toast.LENGTH_SHORT).show();
@@ -200,6 +194,22 @@ public class GameOfLifeFragment extends Fragment {
 
     public static void flipPulse(){
         mPulse = !mPulse;
+    }
+
+    public void saveCopy(){
+        for(int i = 0; i < CurrentBoard.getInstance().getVerticalLength(); i++){
+            for(int j = 0; j < CurrentBoard.getInstance().getHorizontalLength(); j++){
+                mResetCopy[i][j] = CurrentBoard.getInstance().getCellStatus(i,j);
+            }
+        }
+    }
+
+    public void pushCopy(){
+        for(int i = 0; i < CurrentBoard.getInstance().getVerticalLength(); i++){
+            for(int j = 0; j < CurrentBoard.getInstance().getHorizontalLength(); j++){
+                CurrentBoard.getInstance().setCell(i,j,mResetCopy[i][j]);
+            }
+        }
     }
 
     /*
