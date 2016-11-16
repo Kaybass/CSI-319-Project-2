@@ -60,17 +60,6 @@ public class MenuFragment extends Fragment {
 
                 CurrentBoard.getInstance().setBoard(new GameOfLifeBoard(22,22));
 
-                CurrentBoard.getInstance().flipCell(2,2);
-                CurrentBoard.getInstance().flipCell(2,3);
-                CurrentBoard.getInstance().flipCell(3,2);
-                CurrentBoard.getInstance().flipCell(2,1);
-                CurrentBoard.getInstance().flipCell(1,2);
-                CurrentBoard.getInstance().flipCell(10,2);
-                CurrentBoard.getInstance().flipCell(10,3);
-                CurrentBoard.getInstance().flipCell(10,5);
-                CurrentBoard.getInstance().flipCell(10,6);
-                CurrentBoard.getInstance().flipCell(10,4);
-
                 startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 return;
             }

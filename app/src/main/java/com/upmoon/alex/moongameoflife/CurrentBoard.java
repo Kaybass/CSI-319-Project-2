@@ -44,6 +44,8 @@ public class CurrentBoard {
         mBoard.setCell(r,c,b);
     }
 
+    public void resetGenerations() {mBoard.setGeneration(0);}
+
     public int getHorizontalLength(){
         return mBoard.getColumns();
     }
