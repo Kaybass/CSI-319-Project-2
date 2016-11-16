@@ -1,6 +1,7 @@
 package com.upmoon.alex.moongameoflife;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +30,7 @@ public class GameOfLifeFragment extends Fragment {
     private Button mPauseButton, mResetButton, mCloneButton;
 
     private static int mTimer = 800;
-    private static boolean mPaused = true;
+    private volatile boolean mPaused = true;
 
     private Thread mThread;
 
@@ -80,7 +81,14 @@ public class GameOfLifeFragment extends Fragment {
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(isPaused()){
+                    pushCopy();
+                    CurrentBoard.getInstance().resetGenerations();
+                    mAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Pause first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -88,13 +96,11 @@ public class GameOfLifeFragment extends Fragment {
         mCloneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPaused()){
-                    pushCopy();
-                    mAdapter.notifyDataSetChanged();
+                if (isPaused()) {
+                    saveCopy();
+                    startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 }
-                else{
-                    Toast.makeText(getActivity(), "Pause first", Toast.LENGTH_SHORT).show();
-                }
+
             }
         });
 
@@ -142,6 +148,8 @@ public class GameOfLifeFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
+        pushCopy();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -172,11 +180,11 @@ public class GameOfLifeFragment extends Fragment {
      *  static thread functions
      */
 
-    public static boolean isPaused(){
+    public boolean isPaused(){
         return mPaused;
     }
 
-    public static void flipPaused(){
+    public void flipPaused(){
         mPaused = !mPaused;
     }
 

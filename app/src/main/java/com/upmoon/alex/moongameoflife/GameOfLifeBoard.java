@@ -173,7 +173,7 @@ public class GameOfLifeBoard implements Serializable {
     }
 
     /* Set generations */
-    private void setGeneration(int g) {
+    public void setGeneration(int g) {
         generations = g;
     }
 

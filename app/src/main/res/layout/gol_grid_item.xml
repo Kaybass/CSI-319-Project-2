@@ -8,5 +8,6 @@
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/gol_cell_item" />
+        android:id="@+id/gol_cell_item"
+        android:textAlignment="center" />
 </LinearLayout>
