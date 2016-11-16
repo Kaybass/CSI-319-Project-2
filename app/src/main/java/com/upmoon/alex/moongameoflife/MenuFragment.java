@@ -79,7 +79,7 @@ public class MenuFragment extends Fragment {
                 builder.setTitle("Load Locally Saved Grid");
 
                 ListView localSavedGrids = new ListView(getActivity());
-                String[] stringArray = new String[] { "Example Grid 1", "Golden Goat", "Lavender Diesel" };
+                String[] stringArray = new String[] { "Example Grid 1", "Ship", "Golden Goat", "Loaf", "Boat" };
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
                 localSavedGrids.setAdapter(gridAdapter);
 
@@ -90,16 +90,27 @@ public class MenuFragment extends Fragment {
 
                 return;
             }
-        });/*
+        });
 
         loadOnlineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Load Saved Grids Online");
 
-                return;
+                ListView localSavedGrids = new ListView(getActivity());
+                String[] stringArray = new String[] { "Example Online Grid 1", "Glider", "Lightweight Space Ship", "Square" };
+                ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+                localSavedGrids.setAdapter(gridAdapter);
+
+                builder.setView(localSavedGrids);
+                final Dialog dialog = builder.create();
+
+                dialog.show();
             }
         });
 
+        /*
         resetLocalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
