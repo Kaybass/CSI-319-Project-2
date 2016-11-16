@@ -11,10 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 
 public class MenuFragment extends Fragment {
@@ -79,12 +83,21 @@ public class MenuFragment extends Fragment {
                 builder.setTitle("Load Locally Saved Grid");
 
                 ListView localSavedGrids = new ListView(getActivity());
-                String[] stringArray = new String[] { "Example Grid 1", "Ship", "Golden Goat", "Loaf", "Boat" };
+                final String[] stringArray = new String[] { "Example Grid 1", "Ship", "Golden Goat", "Loaf", "Boat" };
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
                 localSavedGrids.setAdapter(gridAdapter);
 
                 builder.setView(localSavedGrids);
                 final Dialog dialog = builder.create();
+
+                localSavedGrids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                    {
+                        Toast toast = Toast.makeText(getActivity(), stringArray[(int)id], LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
 
                 dialog.show();
 
@@ -98,12 +111,21 @@ public class MenuFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Load Saved Grids Online");
 
-                ListView localSavedGrids = new ListView(getActivity());
+                ListView onlineSavedGrids = new ListView(getActivity());
                 String[] stringArray = new String[] { "Example Online Grid 1", "Glider", "Lightweight Space Ship", "Square" };
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
-                localSavedGrids.setAdapter(gridAdapter);
+                onlineSavedGrids.setAdapter(gridAdapter);
 
-                builder.setView(localSavedGrids);
+                onlineSavedGrids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                    {
+                        Toast toast = Toast.makeText(getActivity(), stringArray[(int)id], LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+
+                builder.setView(onlineSavedGrids);
                 final Dialog dialog = builder.create();
 
                 dialog.show();
