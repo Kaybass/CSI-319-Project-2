@@ -27,14 +27,12 @@ public class ConvertBoardToImage {
     }
 
     public void saveBoardAsPNG(Context context) {
-        rows = CurrentBoard.getInstance().getBoard().getRows() * 20;
-        Log.d("**Save:", "Rows = " + Integer.toString(rows));
-        columns = CurrentBoard.getInstance().getBoard().getColumns() * 20;
-        Log.d("**Save:", "Columns = " + Integer.toString(columns));
+        rows = CurrentBoard.getInstance().getBoard().getRows();
+        columns = CurrentBoard.getInstance().getBoard().getColumns();
 
-        int rowIndex = 0, columnIndex = 0;
+        int rowIndex = rows * 20, columnIndex = columns * 20;
 
-        mBoardArray = new int[rows * columns];
+        mBoardArray = new int[rowIndex * columnIndex];
 
         for (int i = 0; i < rows; i++)
         {
