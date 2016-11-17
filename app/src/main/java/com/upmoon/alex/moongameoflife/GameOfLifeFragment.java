@@ -132,17 +132,7 @@ public class GameOfLifeFragment extends Fragment {
                     {
                         SaveGOLoffline saveGame = new SaveGOLoffline();
 
-                        switch((int)id) {
-                            case 0:
-                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 0);
-                                break;
-                            case 1:
-                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 1);
-                                break;
-                            case 2:
-                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 2);
-                                break;
-                        }
+                        saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), (int)id);
                     }
                 });
 

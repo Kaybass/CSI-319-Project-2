@@ -80,8 +80,11 @@ public class MenuFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
-                        Toast toast = Toast.makeText(getActivity(), stringArray[(int)id], LENGTH_SHORT);
-                        toast.show();
+                        LoadGOLoffline loadGame = new LoadGOLoffline();
+
+                        CurrentBoard.getInstance().setBoard(loadGame.loadBoard(getContext(), Integer.toString((int)id)));
+
+                        startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                     }
                 });
 
