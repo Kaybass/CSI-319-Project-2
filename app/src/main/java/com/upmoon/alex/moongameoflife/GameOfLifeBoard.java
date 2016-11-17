@@ -88,12 +88,14 @@ public class GameOfLifeBoard implements Serializable {
     }
 
     /* Returns the 2D GameOfLifeCell array */
-    public GameOfLifeCell[][] extract(){
+    public GameOfLifeCell[][] extract()
+    {
         return cells;
     }
 
     /* Method tpo update the entire board to the next gen */
-    public void updateBoard() {
+    public void updateBoard()
+    {
         /* Create a 2D byte array to keep track of the number of cells living */
         byte[][] livingNeighborsCount = new byte[rows][columns];
 

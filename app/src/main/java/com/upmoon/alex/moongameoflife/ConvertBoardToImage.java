@@ -20,7 +20,7 @@ import static java.security.AccessController.getContext;
 public class ConvertBoardToImage {
     int rows, columns;
     int mBoardArray[];
-    static String imgPath = "/img/GameOfLife.png";
+    static String imgPath = "GameOfLife.png";
 
     public ConvertBoardToImage() {
 
@@ -63,14 +63,13 @@ public class ConvertBoardToImage {
             if(boardBitmap.compress(Bitmap.CompressFormat.PNG, 0, fileOutputStream)) {
                 Toast.makeText(context, "Saved GameOfLife.png Successfully!", Toast.LENGTH_SHORT).show();
             } else {
-                throw new IOException("Failed to compress boardBitmap to fileOutputStream.");
+                Log.d("**Save:", " Unable to save GameOfLife.png.");
             }
 
             fileOutputStream.close();
         }
         catch(IOException e)
         {
-            e.printStackTrace();
         }
     }
 }

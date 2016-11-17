@@ -156,18 +156,12 @@ public class GameOfLifeFragment extends Fragment {
                 ConvertBoardToImage convertBoardToImage = new ConvertBoardToImage();
                 convertBoardToImage.saveBoardAsPNG(getContext());
 
-                Bitmap boardBitmap = BitmapFactory.decodeFile("/img/GameOfLife.png");
-
-                if(boardBitmap != null) {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    Uri uri = Uri.parse("file://" + imgPath);
-                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                    shareIntent.setType("image/png");
-                    startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
-                } else {
-                    Toast.makeText(getActivity(), "Unable to find saved screenshot", LENGTH_SHORT);
-                }
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                Uri uri = Uri.parse("file://" + imgPath);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.setType("image/png");
+                startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
             }
         });
 
