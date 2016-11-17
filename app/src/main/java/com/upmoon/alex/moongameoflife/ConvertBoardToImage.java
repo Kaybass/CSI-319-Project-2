@@ -2,6 +2,7 @@ package com.upmoon.alex.moongameoflife;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public class ConvertBoardToImage {
     int rows, columns;
-    boolean mBoardArray[][];
+    int mBoardArray[];
     static String imgPath = "/img/GameOfLife.png";
 
     public ConvertBoardToImage() {
@@ -26,7 +27,12 @@ public class ConvertBoardToImage {
         for (int i = 0; i < rows; i=i+20){
             for (int j = 0; j < columns; j=j+20){
                 for (int k = 0; k < 20; k++) {
-                    mBoardArray[i+k][j+k] = boardToSave.cellStatus(i, j);
+                    /* If the PNG is flipped, change boardToSave.cellStatus(i, j)) */
+                    if(boardToSave.cellStatus(j, i)) {
+                        mBoardArray[i + j + k] = Color.GREEN;
+                    } else {
+                        mBoardArray[i + j + k] = Color.GRAY;
+                    }
                 }
             }
         }
@@ -34,7 +40,7 @@ public class ConvertBoardToImage {
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(imgPath, Context.MODE_PRIVATE);
 
-            Bitmap boardBitmap = Bitmap.createBitmap(rows, columns, Bitmap.Config.ALPHA_8);
+            Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ALPHA_8);
             if(boardBitmap.compress(Bitmap.CompressFormat.PNG, 0, fileOutputStream)) {
                 Toast.makeText(context, "Saved GameOfLife.png Successfully!", Toast.LENGTH_SHORT).show();
             } else {
