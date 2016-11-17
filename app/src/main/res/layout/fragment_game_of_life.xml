@@ -15,21 +15,31 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/gol_pause_"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Pause" />
         <Button
             android:id="@+id/gol_clone_"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Clone" />
         <Button
             android:id="@+id/gol_reset_"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Reset" />
+        <Button
+            android:id="@+id/gol_save_local_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Local Save" />
     </LinearLayout>
 </LinearLayout>

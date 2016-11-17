@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /* TODO: Draw the cell */
 
-public class GameOfLifeCell {
+public class GameOfLifeCell implements Serializable {
     /* EC: Have cells live for a predetermined number of generations */
     private final static int LIFESPAN = 10;
 

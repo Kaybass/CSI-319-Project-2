@@ -1,10 +1,12 @@
 package com.upmoon.alex.moongameoflife;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,9 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 
 /**
@@ -27,7 +34,7 @@ public class GameOfLifeFragment extends Fragment {
     private RecyclerView mGOLBoard;
     private CellAdapter mAdapter;
 
-    private Button mPauseButton, mResetButton, mCloneButton;
+    private Button mPauseButton, mResetButton, mCloneButton, mSaveLocalButton;
 
     private static int mTimer = 800;
     private volatile boolean mPaused = true;
@@ -77,7 +84,7 @@ public class GameOfLifeFragment extends Fragment {
             }
         });
 
-        mResetButton = (Button) view.findViewById(R.id.gol_clone_);
+        mResetButton = (Button) view.findViewById(R.id.gol_reset_);
         mResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +99,7 @@ public class GameOfLifeFragment extends Fragment {
             }
         });
 
-        mCloneButton = (Button) view.findViewById(R.id.gol_reset_);
+        mCloneButton = (Button) view.findViewById(R.id.gol_clone_);
         mCloneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +108,45 @@ public class GameOfLifeFragment extends Fragment {
                     startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 }
 
+            }
+        });
+
+        mSaveLocalButton = (Button) view.findViewById(R.id.gol_save_local_);
+        mSaveLocalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Load Locally Saved Grid");
+
+                ListView localSavedGrids = new ListView(getActivity());
+                final String[] stringArray = new String[] { "Save Slot 1", "Save Slot 2", "Save Slot 3"};
+                ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+                localSavedGrids.setAdapter(gridAdapter);
+
+                builder.setView(localSavedGrids);
+                final Dialog dialog = builder.create();
+
+                localSavedGrids.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                    {
+                        SaveGOLoffline saveGame = new SaveGOLoffline();
+
+                        switch((int)id) {
+                            case 0:
+                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 0);
+                                break;
+                            case 1:
+                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 1);
+                                break;
+                            case 2:
+                                saveGame.saveBoard(getContext(), CurrentBoard.getInstance().getBoard(), 2);
+                                break;
+                        }
+                    }
+                });
+
+                dialog.show();
             }
         });
 

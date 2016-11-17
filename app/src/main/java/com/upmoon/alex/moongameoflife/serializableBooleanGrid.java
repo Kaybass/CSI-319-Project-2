@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 /**
  * Created by Joe Listro on 11/16/2016.
+ *
+ * ********** *
+ * Deprecated *
+ * ********** *
  */
 
 public class serializableBooleanGrid implements Serializable {

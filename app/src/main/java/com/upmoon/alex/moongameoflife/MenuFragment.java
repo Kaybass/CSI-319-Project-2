@@ -1,13 +1,10 @@
 package com.upmoon.alex.moongameoflife;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +69,7 @@ public class MenuFragment extends Fragment {
                 builder.setTitle("Load Locally Saved Grid");
 
                 ListView localSavedGrids = new ListView(getActivity());
-                final String[] stringArray = new String[] { "Example Grid 1", "Ship", "Golden Goat", "Loaf", "Boat" };
+                final String[] stringArray = new String[] { "Save Slot 1", "Save Slot 2", "Save Slot 3"};
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
                 localSavedGrids.setAdapter(gridAdapter);
 
@@ -101,7 +98,7 @@ public class MenuFragment extends Fragment {
                 builder.setTitle("Load Saved Grids Online");
 
                 ListView onlineSavedGrids = new ListView(getActivity());
-                String[] stringArray = new String[] { "Example Online Grid 1", "Glider", "Lightweight Space Ship", "Square" };
+                final String[] stringArray = new String[] { "Example Online Grid 1", "Glider", "Lightweight Space Ship", "Square" };
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
                 onlineSavedGrids.setAdapter(gridAdapter);
 
