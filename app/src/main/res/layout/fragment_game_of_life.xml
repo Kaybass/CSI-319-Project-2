@@ -41,13 +41,17 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:text="Local Save" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <Button
-            android:id="@+id/gol_screenshot_"
+            android:id="@+id/gol_share_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="Save PNG of Game"/>
+            android:text="Share PNG of Game"/>
     </LinearLayout>
 </LinearLayout>

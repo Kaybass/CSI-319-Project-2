@@ -3,9 +3,13 @@ package com.upmoon.alex.moongameoflife;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +23,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import static android.widget.Toast.LENGTH_SHORT;
+import static com.upmoon.alex.moongameoflife.ConvertBoardToImage.imgPath;
 
 
 /**
@@ -34,7 +43,7 @@ public class GameOfLifeFragment extends Fragment {
     private RecyclerView mGOLBoard;
     private CellAdapter mAdapter;
 
-    private Button mPauseButton, mResetButton, mCloneButton, mSaveLocalButton;
+    private Button mPauseButton, mResetButton, mCloneButton, mSaveLocalButton, mShareButton;
 
     private static int mTimer = 800;
     private volatile boolean mPaused = true;
@@ -137,6 +146,28 @@ public class GameOfLifeFragment extends Fragment {
                 });
 
                 dialog.show();
+            }
+        });
+
+        mShareButton = (Button) view.findViewById(R.id.gol_share_);
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConvertBoardToImage convertBoardToImage = new ConvertBoardToImage();
+                convertBoardToImage.saveBoardAsPNG(getContext());
+
+                Bitmap boardBitmap = BitmapFactory.decodeFile("/img/GameOfLife.png");
+
+                if(boardBitmap != null) {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    Uri uri = Uri.parse("file://" + imgPath);
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                    shareIntent.setType("image/png");
+                    startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
+                } else {
+                    Toast.makeText(getActivity(), "Unable to find saved screenshot", LENGTH_SHORT);
+                }
             }
         });
 

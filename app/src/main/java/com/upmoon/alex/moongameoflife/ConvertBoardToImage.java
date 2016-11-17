@@ -1,12 +1,17 @@
 package com.upmoon.alex.moongameoflife;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by Alex on 11/13/2016.
@@ -21,23 +26,39 @@ public class ConvertBoardToImage {
 
     }
 
-    public void saveBoardAsPNG(Context context, GameOfLifeBoard boardToSave) {
-        rows = boardToSave.getRows() * 20;
-        columns = boardToSave.getColumns() * 20;
-        for (int i = 0; i < rows; i=i+20){
-            for (int j = 0; j < columns; j=j+20){
-                for (int k = 0; k < 20; k++) {
-                    /* If the PNG is flipped, change boardToSave.cellStatus(i, j)) */
-                    if(boardToSave.cellStatus(j, i)) {
-                        mBoardArray[i + j + k] = Color.GREEN;
-                    } else {
-                        mBoardArray[i + j + k] = Color.GRAY;
+    public void saveBoardAsPNG(Context context) {
+        rows = CurrentBoard.getInstance().getBoard().getRows() * 20;
+        Log.d("**Save:", "Rows = " + Integer.toString(rows));
+        columns = CurrentBoard.getInstance().getBoard().getColumns() * 20;
+        Log.d("**Save:", "Columns = " + Integer.toString(columns));
+
+        int rowIndex = 0, columnIndex = 0;
+
+        mBoardArray = new int[rows * columns];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                Log.d("**Save:", " Accessing - (" + Integer.toString(i) + ", " + Integer.toString(j) + ")");
+                for (int k = 0; k < 20; k++)
+                {
+                    if(CurrentBoard.getInstance().getBoard().cellStatus(i, j))
+                    {
+                        mBoardArray[rowIndex + columnIndex + k] = Color.GREEN;
+                    }
+                    else
+                    {
+                        mBoardArray[rowIndex + columnIndex + k] = Color.GRAY;
                     }
                 }
+                columnIndex = columnIndex + 20;
             }
+            rowIndex = rowIndex + 20;
         }
 
-        try {
+        try
+        {
             FileOutputStream fileOutputStream = context.openFileOutput(imgPath, Context.MODE_PRIVATE);
 
             Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ALPHA_8);
@@ -48,9 +69,9 @@ public class ConvertBoardToImage {
             }
 
             fileOutputStream.close();
-
-            Toast.makeText(context, "Succesfully saved /img/GameOfLife.png", Toast.LENGTH_SHORT).show();
-        } catch(IOException e) {
+        }
+        catch(IOException e)
+        {
             e.printStackTrace();
         }
     }
