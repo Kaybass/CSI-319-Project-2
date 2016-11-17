@@ -21,11 +21,13 @@ public class ConvertBoardToImage {
     }
 
     public void saveBoardAsPNG(Context context, GameOfLifeBoard boardToSave) {
-        rows = boardToSave.getRows();
-        columns = boardToSave.getColumns();
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < columns; j++){
-                mBoardArray[i][j] = boardToSave.cellStatus(i, j);
+        rows = boardToSave.getRows() * 20;
+        columns = boardToSave.getColumns() * 20;
+        for (int i = 0; i < rows; i=i+20){
+            for (int j = 0; j < columns; j=j+20){
+                for (int k = 0; k < 20; k++) {
+                    mBoardArray[i+k][j+k] = boardToSave.cellStatus(i, j);
+                }
             }
         }
 
