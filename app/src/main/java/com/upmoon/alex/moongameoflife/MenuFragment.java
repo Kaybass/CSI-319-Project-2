@@ -82,9 +82,17 @@ public class MenuFragment extends Fragment {
                     {
                         LoadGOLoffline loadGame = new LoadGOLoffline();
 
-                        CurrentBoard.getInstance().setBoard(loadGame.loadBoard(getContext(), Integer.toString((int)id)));
+                        GameOfLifeBoard imaboard = loadGame.loadBoard(getContext(), Integer.toString((int)id));
 
-                        startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
+                        if(imaboard != null) {
+
+                            CurrentBoard.getInstance().setBoard(imaboard);
+
+                            startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "No save exists", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -101,7 +109,7 @@ public class MenuFragment extends Fragment {
                 builder.setTitle("Load Saved Grids Online");
 
                 ListView onlineSavedGrids = new ListView(getActivity());
-                final String[] stringArray = new String[] { "Example Online Grid 1", "Glider", "Lightweight Space Ship", "Square" };
+                final String[] stringArray = new String[] { "Not implemented sorry David" };
                 ArrayAdapter<String> gridAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
                 onlineSavedGrids.setAdapter(gridAdapter);
 

@@ -35,7 +35,8 @@ public class LoadGOLoffline implements LoadGOL {
             objectInputStream.close();
             fileInputStream.close();
         } catch(IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
+            //e.printStackTrace();
         }
 
         return boardToLoad;
