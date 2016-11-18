@@ -38,7 +38,8 @@ public class GameOfLifeFragment extends Fragment {
     private RecyclerView mGOLBoard;
     private CellAdapter mAdapter;
 
-    private Button mPauseButton, mResetButton, mCloneButton, mSaveLocalButton, mShareButton;
+    private Button mPauseButton, mResetButton, mCloneButton,
+            mSaveLocalButton, mShareButton, mThemeButton;
 
     private static int mTimer = 800;
     private volatile boolean mPaused = true;
@@ -51,6 +52,10 @@ public class GameOfLifeFragment extends Fragment {
 
     private Boolean[][] mResetCopy;
 
+    private String mColorAlive, mColorDead;
+
+    private boolean mCurrentThemeGreen;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -61,6 +66,10 @@ public class GameOfLifeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game_of_life, container, false);
+
+        mCurrentThemeGreen = true;
+        mColorAlive = "#5ff442";
+        mColorDead = "#6b6b6b";
 
         mResetCopy = new Boolean[CurrentBoard.getInstance().getVerticalLength()]
                 [CurrentBoard.getInstance().getHorizontalLength()];
@@ -109,6 +118,7 @@ public class GameOfLifeFragment extends Fragment {
             public void onClick(View v) {
                 if (isPaused()) {
                     saveCopy();
+                    CurrentBoard.getInstance().resetGenerations();
                     startActivity(new Intent(getActivity(), GameOfLifeActivity.class));
                 }
 
@@ -164,6 +174,27 @@ public class GameOfLifeFragment extends Fragment {
                     shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
                     shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
                     startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
+                }
+            }
+        });
+
+        mThemeButton = (Button) view.findViewById(R.id.gol_theme_change_);
+        mThemeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPaused()){
+                    if(mCurrentThemeGreen){
+                        mColorAlive = "#FF3B3B";
+                        mColorDead  = "#060505";
+                    } else{
+                        mColorAlive = "#5ff442";
+                        mColorDead  = "#6b6b6b";
+                    }
+                    mCurrentThemeGreen = !mCurrentThemeGreen;
+                    mAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getActivity(), "Pause first", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -226,6 +257,7 @@ public class GameOfLifeFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        CurrentBoard.getInstance().resetGenerations();
         mRunning = false;
     }
 
@@ -282,6 +314,7 @@ public class GameOfLifeFragment extends Fragment {
                 CurrentBoard.getInstance().setCell(i,j,mResetCopy[i][j]);
             }
         }
+        CurrentBoard.getInstance().resetGenerations();
     }
 
     /*
@@ -312,11 +345,11 @@ public class GameOfLifeFragment extends Fragment {
                     mCell.setText("8");
                 else
                     mCell.setText("*");
-                mCell.setTextColor(Color.parseColor("#5ff442"));
+                mCell.setTextColor(Color.parseColor(mColorAlive));
             }
             else {
                 mCell.setText("0");
-                mCell.setTextColor(Color.parseColor("#6b6b6b"));
+                mCell.setTextColor(Color.parseColor(mColorDead));
             }
         }
 
@@ -332,11 +365,11 @@ public class GameOfLifeFragment extends Fragment {
                         mCell.setText("8");
                     else
                         mCell.setText("*");
-                    mCell.setTextColor(Color.parseColor("#5ff442"));
+                    mCell.setTextColor(Color.parseColor(mColorAlive));
                 }
                 else {
                     mCell.setText("0");
-                    mCell.setTextColor(Color.parseColor("#6b6b6b"));
+                    mCell.setTextColor(Color.parseColor(mColorDead));
                 }
             }
         }
