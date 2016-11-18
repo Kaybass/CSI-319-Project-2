@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,17 +24,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import static android.widget.Toast.LENGTH_SHORT;
-import static com.upmoon.alex.moongameoflife.ConvertBoardToImage.imgPath;
-
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -156,12 +151,18 @@ public class GameOfLifeFragment extends Fragment {
                 ConvertBoardToImage convertBoardToImage = new ConvertBoardToImage();
                 convertBoardToImage.saveBoardAsPNG(getContext());
 
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                Uri uri = Uri.parse("file://" + imgPath);
-                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                shareIntent.setType("image/png");
-                startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
+                File imagePath = new File(getContext().getCacheDir(), "images");
+                File newFile = new File(imagePath, "image.png");
+                Uri contentUri = FileProvider.getUriForFile(getContext(), "com.upmoon.alex.moongameoflife.fileprovider", newFile);
+
+                if (contentUri != null) {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+                    shareIntent.setDataAndType(contentUri, getActivity().getContentResolver().getType(contentUri));
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    startActivity(Intent.createChooser(shareIntent, "Share my Game of Life Board"));
+                }
             }
         });
 

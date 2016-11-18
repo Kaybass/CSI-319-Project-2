@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -20,7 +22,6 @@ import static java.security.AccessController.getContext;
 public class ConvertBoardToImage {
     int rows, columns;
     int mBoardArray[];
-    static String imgPath = "GameOfLife.png";
 
     public ConvertBoardToImage() {
 
@@ -55,21 +56,19 @@ public class ConvertBoardToImage {
             rowIndex = rowIndex + 20;
         }
 
-        try
-        {
-            FileOutputStream fileOutputStream = context.openFileOutput(imgPath, Context.MODE_PRIVATE);
+        try {
+            Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ARGB_8888);
+            File imgCachePath = new File(context.getCacheDir(), "images");
+            imgCachePath.mkdirs();
+            FileOutputStream fileOutputStream = new FileOutputStream(imgCachePath + "/image.png");
 
-            Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ALPHA_8);
-            if(boardBitmap.compress(Bitmap.CompressFormat.PNG, 0, fileOutputStream)) {
-                Toast.makeText(context, "Saved GameOfLife.png Successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.d("**Save:", " Unable to save GameOfLife.png.");
-            }
+            boardBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
 
             fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            Log.d("**Save:", " File not found.");
         }
-        catch(IOException e)
-        {
+        catch(IOException e) {
         }
     }
 }
