@@ -148,8 +148,10 @@ public class GameOfLifeFragment extends Fragment {
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getView().setDrawingCacheEnabled(true);
                 ConvertBoardToImage convertBoardToImage = new ConvertBoardToImage();
-                convertBoardToImage.saveBoardAsPNG(getContext());
+                Bitmap boardBitmap = getView().getDrawingCache();
+                convertBoardToImage.saveBoardAsPNG(getContext(), boardBitmap);
 
                 File imagePath = new File(getContext().getCacheDir(), "images");
                 File newFile = new File(imagePath, "image.png");

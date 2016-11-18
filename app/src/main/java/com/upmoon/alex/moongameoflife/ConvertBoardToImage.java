@@ -27,7 +27,7 @@ public class ConvertBoardToImage {
 
     }
 
-    public void saveBoardAsPNG(Context context) {
+    public void saveBoardAsPNG(Context context, Bitmap boardBitmap) {
         rows = CurrentBoard.getInstance().getBoard().getRows();
         columns = CurrentBoard.getInstance().getBoard().getColumns();
 
@@ -57,7 +57,9 @@ public class ConvertBoardToImage {
         }
 
         try {
-            Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ARGB_8888);
+            /* Old Code that doesn't work:
+             * Bitmap boardBitmap = Bitmap.createBitmap(mBoardArray, rows, columns, Bitmap.Config.ARGB_8888);
+             */
             File imgCachePath = new File(context.getCacheDir(), "images");
             imgCachePath.mkdirs();
             FileOutputStream fileOutputStream = new FileOutputStream(imgCachePath + "/image.png");
